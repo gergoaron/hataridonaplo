@@ -1,0 +1,18 @@
+# depslib dependency file v1.0
+1636399538 source:c:\users\gergo\egyetem\prog 1\nhf\menu\main.c
+	<stdio.h>
+	<stdlib.h>
+	<conio.h>
+	"debugmalloc.h"
+
+1635793457 c:\users\gergo\egyetem\prog 1\nhf\menu\debugmalloc.h
+	<stdbool.h>
+	<stddef.h>
+	<stdlib.h>
+	<stdio.h>
+	<ctype.h>
+	<string.h>
+	<stdarg.h>
+	<process.h>
+	<unistd.h>
+

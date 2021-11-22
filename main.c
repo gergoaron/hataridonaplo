@@ -12,8 +12,6 @@ typedef struct Esemeny{
     struct Esemeny* kov;
 }Esemeny;
 
-
-
 void esemeny_init(Esemeny *p) {
     p -> ev = 0;
     p -> ho = 0;

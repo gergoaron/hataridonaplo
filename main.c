@@ -88,7 +88,7 @@ char *beolvas() {
 
 
 void esemeny_beolvas(Esemeny *mibe) {
-    esemeny_init(mibe);
+    //esemeny_init(mibe);
     Esemeny e;
     printf("Datum, idopont (EEEE.HH.NN. oo:pp): ");
     scanf("%d.%d.%d. %d:%d", &e.ev, &e.ho, &e.nap, &e.ora, &e.perc);
@@ -109,6 +109,11 @@ void esemeny_beolvas(Esemeny *mibe) {
     printf("Megjegyzes(opcionalis): ");
     e.megj = beolvas();
     mibe -> megj = e.megj;
+
+}
+
+char *dinamikus_beolvas(FILE *fp) {
+
 
 }
 
@@ -136,7 +141,9 @@ Esemeny *hozzafuz(Esemeny* lista) {
     }
 }
 */
+
 //dinamikus tombbe tolti a talalatok indexeit
+
 int* keres(Esemeny *eleje, char *mit) {
     int meret = 0;
     int *talalatok = (int*) malloc(sizeof(int));
@@ -219,17 +226,17 @@ void felszabadit(Esemeny *lista) {
 int main()
 {
     Esemeny* naplo = (Esemeny*) malloc(sizeof(Esemeny)) ;
+    Esemeny* mozgo;
     free(naplo);
     esemeny_init(naplo);
     naplo = NULL;
-
     FILE *fp;
 
 
     char *mitkeres;
 
     int *talalat;
-    int n, db = 0;
+    int i, n, db = 0, talalatvalaszt;
     int v = fomenu();
     fflush(stdin);
     while(v != 0) {
@@ -252,7 +259,35 @@ int main()
 
                 db = talalat_kiir(naplo, talalat);
 
+                if(db > 1) {
+                    printf("\nTalalat kivalasztasa: ");
+                    scanf("%d", &talalatvalaszt);
+                }
+                talalatvalaszt = talalat[talalatvalaszt - 1];
+
+                printf("Opciok:\n");
+                printf("1) Modositas\n");
+                printf("2) Torles\n");
+                printf("0) Vissza\n");
+
+
+
                 scanf("%d", &n);
+
+                switch(n) {
+                    case 0:
+                        break;
+                    case 1:
+                        mozgo = naplo;
+                        for(i = 0; i < talalatvalaszt; i ++)
+                            mozgo = mozgo -> kov;
+                        esemeny_beolvas(mozgo);
+                        break;
+                    case 2:
+                        break;
+                    default:
+                        break;
+                }
 
                 free(talalat);
                 free(mitkeres);
@@ -271,7 +306,7 @@ int main()
         system("cls");
         v = fomenu();
     }
-    Esemeny *mozgo = naplo;
+    mozgo = naplo;
     while(mozgo != NULL) {
         esemeny_kiir(mozgo);
         mozgo = mozgo -> kov;

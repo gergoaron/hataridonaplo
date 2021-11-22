@@ -242,7 +242,7 @@ int main()
     char *mitkeres;
 
     int *talalat;
-    int i, n, db = 0, talalatvalaszt;
+    int i, n, db = 0, talalatvalaszt, naplomeret = 0;
     int v = fomenu();
     fflush(stdin);
     while(v != 0) {
@@ -250,6 +250,7 @@ int main()
             case 1:
                 system("cls");
                 naplo = hozzafuz(naplo);
+                naplomeret ++;
                 break;
             case 2:
                 system("cls");
@@ -290,6 +291,20 @@ int main()
                         free(seged);
                         break;
                     case 2:
+                        if(naplomeret == 1) {
+                          felszabadit(naplo);
+                          break;
+                        }
+                        mozgo = naplo;
+                        for(int i = 0; i < talalatvalaszt - 1; i ++)
+                          mozgo = mozgo -> kov;
+                        if(naplomeret - 1 == talalatvalaszt) {
+                          felszabadit(mozgo -> kov);
+                          mozgo -> kov = NULL;
+                          break;
+                        }
+                        mozgo -> kov = mozgo -> kov -> kov;
+                        felszabadit(mozgo -> kov);
                         break;
                     default:
                         break;

@@ -100,14 +100,20 @@ void esemeny_beolvas(Esemeny *mibe) {
     fflush(stdin);
     printf("Helyszin(opcionalis): ");
     e.helyszin = beolvas();
+    if (mibe -> helyszin != NULL)
+      free(mibe -> helyszin);
     mibe -> helyszin = e.helyszin;
 
     printf("Elnevezes(opcionalis): ");
     e.nev = beolvas();
+    if (mibe -> nev != NULL)
+      free(mibe -> nev);
     mibe -> nev = e.nev;
 
     printf("Megjegyzes(opcionalis): ");
     e.megj = beolvas();
+    if (mibe -> megj != NULL)
+      free(mibe -> megj);
     mibe -> megj = e.megj;
 
 }
@@ -226,7 +232,7 @@ void felszabadit(Esemeny *lista) {
 int main()
 {
     Esemeny* naplo = (Esemeny*) malloc(sizeof(Esemeny)) ;
-    Esemeny* mozgo;
+    Esemeny* mozgo, *seged;
     free(naplo);
     esemeny_init(naplo);
     naplo = NULL;
@@ -270,8 +276,6 @@ int main()
                 printf("2) Torles\n");
                 printf("0) Vissza\n");
 
-
-
                 scanf("%d", &n);
 
                 switch(n) {
@@ -281,14 +285,15 @@ int main()
                         mozgo = naplo;
                         for(i = 0; i < talalatvalaszt; i ++)
                             mozgo = mozgo -> kov;
+
                         esemeny_beolvas(mozgo);
+                        free(seged);
                         break;
                     case 2:
                         break;
                     default:
                         break;
                 }
-
                 free(talalat);
                 free(mitkeres);
                 break;
@@ -299,7 +304,10 @@ int main()
                 //fajla ment
                 break;
             case 5:
-                //fajlbol visszatölt
+                //fajlbol visszatï¿½lt
+                break;
+              case 6:
+                //teljes kiiras
                 break;
         }
         fflush(stdin);

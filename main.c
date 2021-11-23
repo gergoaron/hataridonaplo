@@ -39,10 +39,11 @@ int fomenu() {
     printf("3) Intervallum szerinti listazas\n");
     printf("4) Adatbazis fajlba mentese\n");
     printf("5) Adatbazis visszatoltese fajlbol\n");
+    printf("6) Teljes kiiras\n");
     printf("0) Kilepes\n");
     printf("Adja meg a valaszat: ");
     int bemenet = scanf("%d", &valasz);
-    while( valasz < 0 || valasz > 5 || bemenet == 0) {
+    while( valasz < 0 || valasz > 6 || bemenet == 0) {
         printf("Helytelen ertek!\n");
         printf("Adja meg a valaszat: ");
         fflush(stdin);
@@ -219,6 +220,19 @@ void het() {
 }
 */
 
+void teljeskiir(Esemeny *lista) {
+    if(lista == NULL) {
+      printf("Ures lista!\n");
+      return;
+    }
+
+    Esemeny *mozgo = lista;
+    while(mozgo != NULL) {
+      esemeny_kiir(mozgo);
+      mozgo = mozgo -> kov;
+    }
+}
+
 
 void felszabadit(Esemeny *lista) {
     Esemeny *felsz = lista;
@@ -322,7 +336,10 @@ int main()
                 //fajlbol visszat�lt
                 break;
               case 6:
-                //teljes kiiras
+                system("cls");
+                teljeskiir(naplo);
+                n = 0;
+                scanf("%d", &n);
                 break;
         }
         fflush(stdin);

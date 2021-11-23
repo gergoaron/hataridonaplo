@@ -233,7 +233,6 @@ void teljeskiir(Esemeny *lista) {
     }
 }
 
-
 void felszabadit(Esemeny *lista) {
     Esemeny *felsz = lista;
     while(felsz != NULL) {

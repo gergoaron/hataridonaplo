@@ -345,9 +345,10 @@ int main()
                     scanf("%d", &talalatvalaszt);
                     talalatvalaszt = talalat[talalatvalaszt - 1];
                 }
-                else
+                else if(db == 1)
                   talalatvalaszt = talalat[0];
-
+                else
+                  break;
 
                 printf("Opciok:\n");
                 printf("1) Modositas\n");

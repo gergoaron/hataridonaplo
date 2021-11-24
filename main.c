@@ -30,6 +30,7 @@ void esemeny_destroy(Esemeny *e) {
     if(e -> megj != NULL)
         free(e -> megj);
     free(e);
+    e = NULL;
 }
 
 int fomenu() {
@@ -173,17 +174,22 @@ Esemeny *fajlbol_hozzafuz(Esemeny *lista, FILE *fp) {
     if(lista == NULL)
       return uj;
 
-    lista -> kov = uj;
-    return uj;
+    Esemeny *mozgo = lista;
+    while(mozgo -> kov != NULL)
+      mozgo = mozgo -> kov;
+    mozgo -> kov = uj;
+    return lista;
 }
 
 Esemeny *fajlbol_keszit(Esemeny *lista, FILE *fp) {
     int hossz;
     fscanf(fp ,"%d", &hossz);
-    Esemeny *mozgo = lista;
-    for(int i = 0; i < hossz; i ++ ) {
-      mozgo = fajlbol_hozzafuz(mozgo, fp);
+    printf("%d\n", hossz);
+    //fgetc(fp);
+    for(int i = 0; i < hossz; i ++ ){
+      lista = fajlbol_hozzafuz(lista, fp);
     }
+
     return lista;
 }
 
@@ -300,7 +306,7 @@ int main()
 {
     Esemeny* naplo = (Esemeny*) malloc(sizeof(Esemeny));
     esemeny_init(naplo);
-    Esemeny* mozgo, *seged;
+    Esemeny* mozgo;
     free(naplo);
     esemeny_init(naplo);
     naplo = NULL;
@@ -337,8 +343,11 @@ int main()
                 if(db > 1) {
                     printf("\nTalalat kivalasztasa: ");
                     scanf("%d", &talalatvalaszt);
+                    talalatvalaszt = talalat[talalatvalaszt - 1];
                 }
-                talalatvalaszt = talalat[talalatvalaszt - 1];
+                else
+                  talalatvalaszt = talalat[0];
+
 
                 printf("Opciok:\n");
                 printf("1) Modositas\n");
@@ -356,11 +365,11 @@ int main()
                             mozgo = mozgo -> kov;
 
                         esemeny_beolvas(mozgo);
-                        free(seged);
                         break;
                     case 2:
                         if(naplomeret == 1) {
                           felszabadit(naplo);
+                          naplomeret = 0;
                           break;
                         }
                         mozgo = naplo;
@@ -371,8 +380,9 @@ int main()
                           mozgo -> kov = NULL;
                           break;
                         }
-                        mozgo -> kov = mozgo -> kov -> kov;
                         felszabadit(mozgo -> kov);
+                        mozgo -> kov = mozgo -> kov -> kov;
+
                         break;
                     default:
                         break;
@@ -388,8 +398,9 @@ int main()
                 break;
             case 5:
                 fp = fopen("proba.txt", "r");
-                //naplo = fajlbol_keszit(naplo, fp);
-
+                naplo = fajlbol_keszit(naplo, fp);
+                teljeskiir(naplo);
+                scanf("%d", &n);
                 fclose(fp);
                 break;
               case 6:

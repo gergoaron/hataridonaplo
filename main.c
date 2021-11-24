@@ -142,14 +142,13 @@ void esemeny_beolvas(Esemeny *mibe) {
 
 void fajlbol_beolvas(Esemeny *mibe, FILE *fp) {
     Esemeny e;
-
     fscanf(fp, "%d.%d.%d. %d:%d", &e.ev, &e.ho, &e.nap, &e.ora, &e.perc);
     mibe -> ev = e.ev;
     mibe -> ho = e.ho;
     mibe -> nap = e.nap;
     mibe -> ora = e.ora;
     mibe -> perc = e.perc;
-
+    fgetc(fp);
     e.helyszin = szovegfajlbeolvas(fp);
     if (mibe -> helyszin != NULL)
       free(mibe -> helyszin);
@@ -182,15 +181,6 @@ Esemeny *hozzafuz(Esemeny* lista) {
     mozgo -> kov = uj;
     return lista;
 }
-
-/*Esemeny *fajlbol_beolvas(Esemeny* eleje, FILE *f) {
-    Esemeny *mozgo = eleje;
-    while(!EOF) {
-        esemeny_init(mozgo);
-
-    }
-}
-*/
 
 //dinamikus tombbe tolti a talalatok indexeit
 
@@ -375,9 +365,9 @@ int main()
                 //fajla ment
                 break;
             case 5:
-                /*fp = fopen("proba.txt", "r");
+                fp = fopen("proba.txt", "r");
                 fajlbol_beolvas(naplo, fp);
-                fclose(fp);*/
+                fclose(fp);
                 break;
               case 6:
                 system("cls");

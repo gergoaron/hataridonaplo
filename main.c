@@ -87,6 +87,27 @@ char *beolvas() {
     return tomb;
 }
 
+char *szovegfajlbeolvas(FILE *fp) {
+    char *tomb;
+    int i = 0;
+    char be;
+    tomb = (char*) malloc(sizeof(char));
+    if(tomb != NULL) {
+        be = getc(fp);
+        while(be != '\n') {
+            tomb[i++] = be;
+            tomb = (char*) realloc(tomb, (i + 1) * sizeof(char));
+            be = fgetc(fp);
+        }
+        tomb[i] = '\0';
+    }
+    else printf("Sikertelen foglalas!\n");
+    if(tomb[0] == '\0') {
+        free(tomb);
+        return NULL;
+    }
+    return tomb;
+}
 
 void esemeny_beolvas(Esemeny *mibe) {
     //esemeny_init(mibe);
@@ -119,8 +140,30 @@ void esemeny_beolvas(Esemeny *mibe) {
 
 }
 
-char *dinamikus_beolvas(FILE *fp) {
+void fajlbol_beolvas(Esemeny *mibe, FILE *fp) {
+    Esemeny e;
 
+    fscanf(fp, "%d.%d.%d. %d:%d", &e.ev, &e.ho, &e.nap, &e.ora, &e.perc);
+    mibe -> ev = e.ev;
+    mibe -> ho = e.ho;
+    mibe -> nap = e.nap;
+    mibe -> ora = e.ora;
+    mibe -> perc = e.perc;
+
+    e.helyszin = szovegfajlbeolvas(fp);
+    if (mibe -> helyszin != NULL)
+      free(mibe -> helyszin);
+    mibe -> helyszin = e.helyszin;
+
+    e.nev = szovegfajlbeolvas(fp);
+    if (mibe -> nev != NULL)
+      free(mibe -> nev);
+    mibe -> nev = e.nev;
+
+    e.megj = szovegfajlbeolvas(fp);
+    if (mibe -> megj != NULL)
+      free(mibe -> megj);
+    mibe -> megj = e.megj;
 
 }
 
@@ -332,7 +375,9 @@ int main()
                 //fajla ment
                 break;
             case 5:
-                //fajlbol visszat�lt
+                /*fp = fopen("proba.txt", "r");
+                fajlbol_beolvas(naplo, fp);
+                fclose(fp);*/
                 break;
               case 6:
                 system("cls");

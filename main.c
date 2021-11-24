@@ -262,20 +262,33 @@ int talalat_kiir(Esemeny *eleje, int *tomb) {
 
 
 
-/*
-int intervallum_valaszt() {
-
+int napkiir(Esemeny *lista, int ev, int ho, int nap) {
+    int db = 0;
+    Esemeny *mozgo = lista;
+    while(mozgo != NULL) {
+      if(mozgo -> nap == nap && mozgo -> ho == ho && mozgo -> ev == ev) {
+        esemeny_kiir(mozgo);
+        db ++;
+      }
+      mozgo = mozgo -> kov;
+    }
+    return db;
 }
 
-void nap() {
-
+int hokiir(Esemeny *lista, int ev, int ho) {
+    int db = 0;
+    Esemeny *mozgo = lista;
+    while(mozgo != NULL) {
+      if(mozgo -> ho == ho && mozgo -> ev == ev) {
+        esemeny_kiir(mozgo);
+        db ++;
+      }
+      mozgo = mozgo -> kov;
+    }
+    return db;
 }
 
-void honap() {
-
-}
-
-void het() {
+/*void het() {
 
 }
 */
@@ -311,7 +324,7 @@ int main()
     esemeny_init(naplo);
     naplo = NULL;
     FILE *fp;
-
+    int ev, ho, nap;
 
     char *mitkeres;
 
@@ -392,12 +405,39 @@ int main()
                 free(mitkeres);
                 break;
             case 3:
-                //intervallum_valaszt();
+                system("cls");
+                printf("Valasszon intervallumot!\n");
+                printf("  1 - Nap\n  2 - Het\n  3 - Honap\n  4 - Vissza\n");
+                printf("\n  Valasz: ");
+                scanf("%d", &n);
+                switch(n) {
+                  case 1:
+                    printf("Adja meg a datumot: ");
+                    scanf("%d.%d.%d.", &ev, &ho, &nap);
+                    if(napkiir(naplo, ev, ho, nap) == 0)
+                      printf("Nincs talalat!\n");
+                    scanf("%d", &ev);
+                    break;
+                  case 2:
+                  case 3:
+                    printf("Adja meg a datumot: ");
+                    scanf("%d.%d.", &ev, &ho);
+                    if(hokiir(naplo, ev, ho) == 0)
+                      printf("Nincs talalat!\n");
+                    scanf("%d", &nap);
+                    break;
+                  case 4:
+                    break;
+                  default:
+                    break;
+                }
                 break;
             case 4:
                 //fajla ment
                 break;
             case 5:
+                felszabadit(naplo);
+                naplo = NULL;
                 fp = fopen("proba.txt", "r");
                 naplo = fajlbol_keszit(naplo, fp);
                 teljeskiir(naplo);

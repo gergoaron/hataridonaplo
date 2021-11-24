@@ -166,6 +166,28 @@ void fajlbol_beolvas(Esemeny *mibe, FILE *fp) {
 
 }
 
+Esemeny *fajlbol_hozzafuz(Esemeny *lista, FILE *fp) {
+    Esemeny* uj = (Esemeny*) malloc (sizeof(Esemeny));
+    esemeny_init(uj);
+    fajlbol_beolvas(uj, fp);
+    if(lista == NULL)
+      return uj;
+
+    lista -> kov = uj;
+    return uj;
+}
+
+Esemeny *fajlbol_keszit(Esemeny *lista, FILE *fp) {
+    int hossz;
+    fscanf(fp ,"%d", &hossz);
+    Esemeny *mozgo = lista;
+    for(int i = 0; i < hossz; i ++ ) {
+      mozgo = fajlbol_hozzafuz(mozgo, fp);
+    }
+
+    return lista;
+}
+
 //uj esemeny
 Esemeny *hozzafuz(Esemeny* lista) {
     printf("Uj esemeny letrehozasa\n\n");
@@ -277,7 +299,8 @@ void felszabadit(Esemeny *lista) {
 
 int main()
 {
-    Esemeny* naplo = (Esemeny*) malloc(sizeof(Esemeny)) ;
+    Esemeny* naplo = (Esemeny*) malloc(sizeof(Esemeny));
+    esemeny_init(naplo);
     Esemeny* mozgo, *seged;
     free(naplo);
     esemeny_init(naplo);
@@ -366,7 +389,7 @@ int main()
                 break;
             case 5:
                 fp = fopen("proba.txt", "r");
-                fajlbol_beolvas(naplo, fp);
+                naplo = fajlbol_keszit(naplo, fp);
                 fclose(fp);
                 break;
               case 6:

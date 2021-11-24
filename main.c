@@ -93,7 +93,7 @@ char *szovegfajlbeolvas(FILE *fp) {
     char be;
     tomb = (char*) malloc(sizeof(char));
     if(tomb != NULL) {
-        be = getc(fp);
+        be = fgetc(fp);
         while(be != '\n') {
             tomb[i++] = be;
             tomb = (char*) realloc(tomb, (i + 1) * sizeof(char));
@@ -184,7 +184,6 @@ Esemeny *fajlbol_keszit(Esemeny *lista, FILE *fp) {
     for(int i = 0; i < hossz; i ++ ) {
       mozgo = fajlbol_hozzafuz(mozgo, fp);
     }
-
     return lista;
 }
 
@@ -389,7 +388,8 @@ int main()
                 break;
             case 5:
                 fp = fopen("proba.txt", "r");
-                naplo = fajlbol_keszit(naplo, fp);
+                //naplo = fajlbol_keszit(naplo, fp);
+
                 fclose(fp);
                 break;
               case 6:

@@ -315,6 +315,21 @@ void felszabadit(Esemeny *lista) {
     }
 }
 
+void fajlba_kiir(Esemeny *e, FILE *fp) {
+    fprintf(fp, "%4d.%02d.%02d. %02d:%02d\n", e -> ev, e -> ho, e -> nap, e -> ora, e -> perc);
+    if(e -> helyszin != NULL)
+        fprintf(fp, "%s\n", e -> helyszin);
+    else fprintf(fp,"0\n");
+
+    if(e -> nev != NULL)
+        fprintf(fp, "%s\n", e -> nev);
+    else fprintf(fp,"0\n");
+
+    if(e -> megj != NULL)
+        fprintf(fp, "%s\n", e -> megj);
+    else fprintf(fp,"0\n");
+}
+
 int main()
 {
     Esemeny* naplo = (Esemeny*) malloc(sizeof(Esemeny));
@@ -326,7 +341,7 @@ int main()
     FILE *fp;
     int ev, ho, nap;
 
-    char *mitkeres;
+    char *mitkeres, *fajlnev;
 
     int *talalat;
     int i, n, db = 0, talalatvalaszt, naplomeret = 0;
@@ -434,6 +449,18 @@ int main()
                 break;
             case 4:
                 //fajla ment
+                printf("Fajl neve: ");
+                fflush(stdin);
+                fajlnev = beolvas();
+                fp = fopen(fajlnev, "w");
+                mozgo = naplo;
+                while(mozgo != NULL) {
+                  fajlba_kiir(naplo, fp);
+                  mozgo = mozgo -> kov;
+                }
+
+                fclose(fp);
+                free(fajlnev);
                 break;
             case 5:
                 felszabadit(naplo);

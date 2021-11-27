@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include "debugmalloc.h"
 #include <string.h>
+#define BUFFER_SIZE 8
 
 typedef struct Esemeny{
     int ev, ho, nap;
@@ -44,10 +45,11 @@ int fomenu() {
     printf("0) Kilepes\n");
     printf("Adja meg a valaszat: ");
     int bemenet = scanf("%d", &valasz);
-    while( valasz < 0 || valasz > 6 || bemenet == 0) {
+    int c;
+    while ((c = getchar()) != '\n' && c != EOF) { }
+    while( (valasz < 0 || valasz > 6 || bemenet == 0) ) {
         printf("Helytelen ertek!\n");
         printf("Adja meg a valaszat: ");
-        fflush(stdin);
         bemenet = scanf("%d", &valasz);
     }
 
@@ -120,7 +122,7 @@ void esemeny_beolvas(Esemeny *mibe) {
     mibe -> nap = e.nap;
     mibe -> ora = e.ora;
     mibe -> perc = e.perc;
-    fflush(stdin);
+    getchar();
     printf("Helyszin(opcionalis): ");
     e.helyszin = beolvas();
     if (mibe -> helyszin != NULL)
@@ -288,10 +290,9 @@ int hokiir(Esemeny *lista, int ev, int ho) {
     return db;
 }
 
-/*void het() {
+void het(Esemeny *lista, int ev, int ho, int nap) {
 
 }
-*/
 
 void teljeskiir(Esemeny *lista) {
     if(lista == NULL) {
@@ -330,6 +331,7 @@ void fajlba_kiir(Esemeny *e, FILE *fp) {
     else fprintf(fp,"0\n");
 }
 
+
 int main()
 {
     Esemeny* naplo = (Esemeny*) malloc(sizeof(Esemeny));
@@ -340,13 +342,14 @@ int main()
     naplo = NULL;
     FILE *fp;
     int ev, ho, nap;
+    int c;
+    char buffer_input[BUFFER_SIZE];
 
     char *mitkeres, *fajlnev;
 
     int *talalat;
     int i, n, db = 0, talalatvalaszt, naplomeret = 0;
     int v = fomenu();
-    fflush(stdin);
     while(v != 0) {
         switch(v) {
             case 1:
@@ -356,26 +359,29 @@ int main()
                 break;
             case 2:
                 system("cls");
+                while ((c = getchar()) != '\n' && c != EOF) { }
                 printf("Adja meg a keresett esemeny nevet: ");
-
-                fflush(stdin);
-
                 mitkeres = beolvas();
 
                 system("cls");
-
                 talalat = keres(naplo, mitkeres);
 
                 db = talalat_kiir(naplo, talalat);
-
                 if(db > 1) {
-                    printf("\nTalalat kivalasztasa: ");
+                    printf("\nTalalat kivalasztasa (0 - vissza): ");
                     scanf("%d", &talalatvalaszt);
-                    talalatvalaszt = talalat[talalatvalaszt - 1];
+                    if(talalatvalaszt > 0 && talalatvalaszt < db)
+                      talalatvalaszt = talalat[talalatvalaszt - 1];
+                    else {
+                      free(mitkeres);
+                      free(talalat);
+                      break;
+                    }
                 }
                 else if(db == 1)
                   talalatvalaszt = talalat[0];
                 else
+                  free(mitkeres);
                   break;
 
                 printf("Opciok:\n");
@@ -425,6 +431,8 @@ int main()
                 printf("  1 - Nap\n  2 - Het\n  3 - Honap\n  4 - Vissza\n");
                 printf("\n  Valasz: ");
                 scanf("%d", &n);
+                //while ((c = getchar()) != '\n' && c != EOF) { }
+
                 switch(n) {
                   case 1:
                     printf("Adja meg a datumot: ");
@@ -448,9 +456,8 @@ int main()
                 }
                 break;
             case 4:
-                //fajla ment
+                while ((c = getchar()) != '\n' && c != EOF) { }
                 printf("Fajl neve: ");
-                fflush(stdin);
                 fajlnev = beolvas();
                 fp = fopen(fajlnev, "w");
                 mozgo = naplo;
@@ -465,20 +472,24 @@ int main()
             case 5:
                 felszabadit(naplo);
                 naplo = NULL;
-                fp = fopen("proba.txt", "r");
+                while ((c = getchar()) != '\n' && c != EOF) { }
+                printf("Fajl neve: ");
+                fajlnev = beolvas();
+                fp = fopen(fajlnev, "r");
                 naplo = fajlbol_keszit(naplo, fp);
                 teljeskiir(naplo);
-                scanf("%d", &n);
+                getchar();
                 fclose(fp);
+                free(fajlnev);
                 break;
               case 6:
                 system("cls");
+                getchar();
                 teljeskiir(naplo);
-                n = 0;
-                scanf("%d", &n);
+                printf("\nNyomja meg az ENTER-t a visszalepeshez: ");
+                getchar();
                 break;
         }
-        fflush(stdin);
         system("cls");
         v = fomenu();
     }

@@ -357,7 +357,6 @@ int main()
                 break;
             case 2:
                 system("cls");
-                while ((c = getchar()) != '\n' && c != EOF) { }
                 printf("Adja meg a keresett esemeny nevet: ");
                 mitkeres = beolvas();
 
@@ -376,11 +375,14 @@ int main()
                       break;
                     }
                 }
+
                 else if(db == 1)
                   talalatvalaszt = talalat[0];
-                else
+
+                else {
                   free(mitkeres);
                   break;
+                }
 
                 printf("Opciok:\n");
                 printf("1) Modositas\n");
@@ -454,7 +456,6 @@ int main()
                 }
                 break;
             case 4:
-                //while ((c = getchar()) != '\n' && c != EOF) { }
                 printf("Fajl neve: ");
                 fajlnev = beolvas();
                 fp = fopen(fajlnev, "w");
@@ -470,7 +471,6 @@ int main()
             case 5:
                 felszabadit(naplo);
                 naplo = NULL;
-                //while ((c = getchar()) != '\n' && c != EOF) { }
                 printf("Fajl neve: ");
                 fajlnev = beolvas();
                 fp = fopen(fajlnev, "r");

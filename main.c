@@ -50,6 +50,7 @@ int fomenu() {
         printf("Helytelen ertek!\n");
         printf("Adja meg a valaszat: ");
         bemenet = scanf("%d", &valasz);
+        while ((c = getchar()) != '\n' && c != EOF) { }
     }
 
     return valasz;
@@ -121,7 +122,8 @@ void esemeny_beolvas(Esemeny *mibe) {
     mibe -> nap = e.nap;
     mibe -> ora = e.ora;
     mibe -> perc = e.perc;
-    getchar();
+    int c;
+    while ((c = getchar()) != '\n' && c != EOF) { }
     printf("Helyszin(opcionalis): ");
     e.helyszin = beolvas();
     if (mibe -> helyszin != NULL)
@@ -185,12 +187,9 @@ Esemeny *fajlbol_hozzafuz(Esemeny *lista, FILE *fp) {
 Esemeny *fajlbol_keszit(Esemeny *lista, FILE *fp) {
     int hossz;
     fscanf(fp ,"%d", &hossz);
-    printf("%d\n", hossz);
-    //fgetc(fp);
     for(int i = 0; i < hossz; i ++ ){
       lista = fajlbol_hozzafuz(lista, fp);
     }
-
     return lista;
 }
 
@@ -355,23 +354,30 @@ int main()
                 naplo = hozzafuz(naplo);
                 naplomeret ++;
                 break;
+                
             case 2:
                 system("cls");
                 printf("Adja meg a keresett esemeny nevet: ");
                 mitkeres = beolvas();
-
                 system("cls");
                 talalat = keres(naplo, mitkeres);
-
                 db = talalat_kiir(naplo, talalat);
                 if(db > 1) {
                     printf("\nTalalat kivalasztasa (0 - vissza): ");
                     scanf("%d", &talalatvalaszt);
-                    if(talalatvalaszt > 0 && talalatvalaszt < db)
+                    getchar();
+                    if(talalatvalaszt > 0 && talalatvalaszt <= db)
                       talalatvalaszt = talalat[talalatvalaszt - 1];
-                    else {
+                    else if(talalatvalaszt == 0) {
                       free(mitkeres);
                       free(talalat);
+                      break;
+                    }
+                    else {
+                      printf("Ervenytelen ertek, nyomjon ENTER-t a fomenube lepeshez\n");
+                      free(mitkeres);
+                      free(talalat);
+                      getchar();
                       break;
                     }
                 }
@@ -381,6 +387,7 @@ int main()
 
                 else {
                   free(mitkeres);
+                  getchar();
                   break;
                 }
 
@@ -388,12 +395,12 @@ int main()
                 printf("1) Modositas\n");
                 printf("2) Torles\n");
                 printf("0) Vissza\n");
-
                 scanf("%d", &n);
 
                 switch(n) {
                     case 0:
                         break;
+
                     case 1:
                         mozgo = naplo;
                         for(i = 0; i < talalatvalaszt; i ++)
@@ -401,6 +408,7 @@ int main()
 
                         esemeny_beolvas(mozgo);
                         break;
+
                     case 2:
                         if(naplomeret == 1) {
                           felszabadit(naplo);
@@ -419,12 +427,15 @@ int main()
                         mozgo -> kov = mozgo -> kov -> kov;
 
                         break;
+
                     default:
                         break;
                 }
+
                 free(talalat);
                 free(mitkeres);
                 break;
+
             case 3:
                 system("cls");
                 printf("Valasszon intervallumot!\n");
@@ -441,7 +452,9 @@ int main()
                       printf("Nincs talalat!\n");
                     scanf("%d", &ev);
                     break;
+
                   case 2:
+
                   case 3:
                     printf("Adja meg a datumot: ");
                     scanf("%d.%d.", &ev, &ho);
@@ -449,12 +462,15 @@ int main()
                       printf("Nincs talalat!\n");
                     scanf("%d", &nap);
                     break;
+
                   case 4:
                     break;
+
                   default:
                     break;
                 }
                 break;
+
             case 4:
                 printf("Fajl neve: ");
                 fajlnev = beolvas();
@@ -468,6 +484,7 @@ int main()
                 fclose(fp);
                 free(fajlnev);
                 break;
+
             case 5:
                 felszabadit(naplo);
                 naplo = NULL;
@@ -475,14 +492,13 @@ int main()
                 fajlnev = beolvas();
                 fp = fopen(fajlnev, "r");
                 naplo = fajlbol_keszit(naplo, fp);
-                teljeskiir(naplo);
                 getchar();
                 fclose(fp);
                 free(fajlnev);
                 break;
+
               case 6:
                 system("cls");
-                //while ((c = getchar()) != '\n' && c != EOF) { }
                 teljeskiir(naplo);
                 printf("\nNyomja meg az ENTER-t a visszalepeshez\n");
                 getchar();

@@ -2,7 +2,6 @@
 #include <stdlib.h>
 #include "debugmalloc.h"
 #include <string.h>
-#define BUFFER_SIZE 8
 
 typedef struct Esemeny{
     int ev, ho, nap;
@@ -343,7 +342,6 @@ int main()
     FILE *fp;
     int ev, ho, nap;
     int c;
-    char buffer_input[BUFFER_SIZE];
 
     char *mitkeres, *fajlnev;
 

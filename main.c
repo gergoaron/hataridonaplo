@@ -454,7 +454,7 @@ int main()
                 }
                 break;
             case 4:
-                while ((c = getchar()) != '\n' && c != EOF) { }
+                //while ((c = getchar()) != '\n' && c != EOF) { }
                 printf("Fajl neve: ");
                 fajlnev = beolvas();
                 fp = fopen(fajlnev, "w");
@@ -470,7 +470,7 @@ int main()
             case 5:
                 felszabadit(naplo);
                 naplo = NULL;
-                while ((c = getchar()) != '\n' && c != EOF) { }
+                //while ((c = getchar()) != '\n' && c != EOF) { }
                 printf("Fajl neve: ");
                 fajlnev = beolvas();
                 fp = fopen(fajlnev, "r");
@@ -482,9 +482,9 @@ int main()
                 break;
               case 6:
                 system("cls");
-                getchar();
+                //while ((c = getchar()) != '\n' && c != EOF) { }
                 teljeskiir(naplo);
-                printf("\nNyomja meg az ENTER-t a visszalepeshez: ");
+                printf("\nNyomja meg az ENTER-t a visszalepeshez\n");
                 getchar();
                 break;
         }

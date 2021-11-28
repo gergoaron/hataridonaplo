@@ -16,3 +16,44 @@
 	<process.h>
 	<unistd.h>
 
+1638116409 source:c:\users\gergo\egyetem\prog 1\nhf\hataridonaplo_rep\main.c
+	<stdio.h>
+	<stdlib.h>
+	"debugmalloc.h"
+	<string.h>
+	"esemenykezeles.h"
+	"datumkezeles.h"
+
+1637586297 c:\users\gergo\egyetem\prog 1\nhf\hataridonaplo_rep\debugmalloc.h
+	<stdbool.h>
+	<stddef.h>
+	<stdlib.h>
+	<stdio.h>
+	<ctype.h>
+	<string.h>
+	<stdarg.h>
+	<process.h>
+	<unistd.h>
+
+1638116300 c:\users\gergo\egyetem\prog 1\nhf\hataridonaplo_rep\esemenykezeles.h
+	<stdbool.h>
+	<stdio.h>
+
+1638116301 source:c:\users\gergo\egyetem\prog 1\nhf\hataridonaplo_rep\esemenykezeles.c
+	"esemenykezeles.h"
+
+1638116409 source:c:\users\gergo\egyetem\prog 1\nhf\hataridonaplo_rep\fajlkezeles.c
+	"fajlkezeles.h"
+
+1638116219 source:c:\users\gergo\egyetem\prog 1\nhf\hataridonaplo_rep\datumkezeles.c
+	"datumkezeles.h"
+
+1638116218 c:\users\gergo\egyetem\prog 1\nhf\hataridonaplo_rep\datumkezeles.h
+	<stdio.h>
+	<stdbool.h>
+	"esemenykezeles.h"
+
+1638116504 c:\users\gergo\egyetem\prog 1\nhf\hataridonaplo_rep\fajlkezeles.h
+	<stdio.h>
+	"esemenykezeles.h"
+

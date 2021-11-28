@@ -167,7 +167,6 @@ int hanyadik_nap(int ev, int ho, int nap) {
 
 void hanyadik_het(int ev, int ho, int nap, int *hanyadikhet, int *milyennap) {
   int napdb = hanyadik_nap(ev, ho, nap);
-  printf(" %d ", napdb);
   int het = 1;
   if(napdb == 0)
     return;
@@ -235,6 +234,33 @@ void esemeny_beolvas(Esemeny *mibe) {
 
 }
 
+bool esemeny_igazol(Esemeny *e) {
+  if(e -> ev < 0)
+    return false;
+  if(e -> ho < 1 || e -> ho > 12)
+    return false;
+  if(e -> nap < 1 || e -> nap > 31)
+    return false;
+  if(e -> nap > 30 && !(e -> ho == 4 || e -> ho == 6 || e -> ho == 9 || e -> ho == 11))
+    return false;
+  if(e -> ho == 2) {
+    if(szokoev(e -> ev)) {
+      if(e -> nap > 29)
+        return false;
+      }
+    if(e -> nap > 28)
+      return false;
+  }
+
+  if(e -> ora < 0 || e -> ora > 23)
+    return false;
+
+  if(e -> perc < 0 || e -> perc > 59)
+    return false;
+
+  return true;
+}
+
 void fajlbol_beolvas(Esemeny *mibe, FILE *fp) {
     Esemeny e;
     fscanf(fp, "%d.%d.%d. %d:%d", &e.ev, &e.ho, &e.nap, &e.ora, &e.perc);
@@ -267,6 +293,11 @@ Esemeny *fajlbol_hozzafuz(Esemeny *lista, FILE *fp) {
     Esemeny* uj = (Esemeny*) malloc (sizeof(Esemeny));
     esemeny_init(uj);
     fajlbol_beolvas(uj, fp);
+    if(!esemeny_igazol(uj)) {
+      esemeny_destroy(uj);
+      return lista;
+    }
+
     if(lista == NULL)
       return uj;
 
@@ -292,6 +323,12 @@ Esemeny *hozzafuz(Esemeny* lista) {
     Esemeny *uj = (Esemeny*) malloc(sizeof(Esemeny));
     esemeny_init(uj);
     esemeny_beolvas(uj);
+    if(!esemeny_igazol(uj)) {
+      printf("Hibas adatok!\n");
+      esemeny_destroy(uj);
+      getchar();
+      return lista;
+    }
     if(lista == NULL)
         return uj;
 
@@ -442,12 +479,11 @@ int main()
     naplo = NULL;
     FILE *fp;
     int ev, ho, het, nap;
-    int c;
 
     char *mitkeres, *fajlnev;
 
     int *talalat;
-    int i, n, db = 0, talalatvalaszt;
+    int i, c, n, db = 0, talalatvalaszt;
     int v = fomenu();
     while(v != 0) {
         switch(v) {
@@ -593,6 +629,15 @@ int main()
                 fajlnev = beolvas();
                 fp = fopen(fajlnev, "w");
                 mozgo = naplo;
+                db = 0;
+                while(mozgo != NULL) {
+                  db ++;
+                  mozgo = mozgo -> kov;
+                }
+
+                fprintf(fp, "%d\n", db);
+                mozgo = naplo;
+
                 while(mozgo != NULL) {
                   fajlba_kiir(naplo, fp);
                   mozgo = mozgo -> kov;
@@ -603,13 +648,14 @@ int main()
                 break;
 
             case 5:
+                system("cls");
                 felszabadit(naplo);
                 naplo = NULL;
+                printf("Fajl beolvasasa\n");
                 printf("Fajl neve: ");
                 fajlnev = beolvas();
                 fp = fopen(fajlnev, "r");
                 naplo = fajlbol_keszit(naplo, fp);
-                getchar();
                 fclose(fp);
                 free(fajlnev);
                 break;

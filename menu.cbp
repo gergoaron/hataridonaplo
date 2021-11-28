@@ -31,6 +31,18 @@
 		<Compiler>
 			<Add option="-Wall" />
 		</Compiler>
+		<Unit filename="datumkezeles.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="datumkezeles.h" />
+		<Unit filename="esemenykezeles.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="esemenykezeles.h" />
+		<Unit filename="fajlkezeles.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="fajlkezeles.h" />
 		<Unit filename="main.c">
 			<Option compilerVar="CC" />
 		</Unit>

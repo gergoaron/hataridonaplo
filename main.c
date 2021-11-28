@@ -122,48 +122,87 @@ int hanyadik_nap(int ev, int ho, int nap) {
   int hanyadik = nap, februar = 28;
   if(szokoev(ev))
     februar = 29;
-    switch (ho) {
-      case 1:
-        break;
-      case 2:
-        nap += 31;
-        break;
-      case 3:
-        nap += 31 + februar;
-        break;
-      case 4:
-        nap += 31 + februar + 31;
-        break;
-      case 5:
-        nap += 31 + februar + 31 + 30;
-        break;
-      case 6:
-        nap += 31 + februar + 31 + 30 + 31;
-        break;
-      case 7:
-        nap += 31 + februar + 31 + 30 + 31 + 30;
-        break;
-      case 8:
-        nap += 31 + februar + 31 + 30 + 31 + 30 + 31;
-        break;
-      case 9:
-        nap += 31 + februar + 31 + 30 + 31 + 30 + 31 + 31;
-        break;
-      case 10:
-        nap += 31 + februar + 31 + 30 + 31 + 30 + 31 + 31 + 30;
-        break;
-      case 11:
-        nap += 31 + februar + 31 + 30 + 31 + 30 + 31 + 31 + 30 + 31;
-        break;
-      case 12:
-        nap += 31 + februar + 31 + 30 + 31 + 30 + 31 + 31 + 30 + 31 + 30;
-        break;
+  switch (ho) {
+    case 1:
+      break;
+    case 2:
+      hanyadik += 31;
+      break;
+    case 3:
+      hanyadik += 31 + februar;
+      break;
+    case 4:
+      hanyadik += 31 + februar + 31;
+      break;
+    case 5:
+      hanyadik += 31 + februar + 31 + 30;
+      break;
+    case 6:
+      hanyadik += 31 + februar + 31 + 30 + 31;
+      break;
+    case 7:
+      hanyadik += 31 + februar + 31 + 30 + 31 + 30;
+      break;
+    case 8:
+      hanyadik += 31 + februar + 31 + 30 + 31 + 30 + 31;
+      break;
+    case 9:
+      hanyadik += 31 + februar + 31 + 30 + 31 + 30 + 31 + 31;
+      break;
+    case 10:
+      hanyadik += 31 + februar + 31 + 30 + 31 + 30 + 31 + 31 + 30;
+      break;
+    case 11:
+      hanyadik += 31 + februar + 31 + 30 + 31 + 30 + 31 + 31 + 30 + 31;
+      break;
+    case 12:
+      hanyadik += 31 + februar + 31 + 30 + 31 + 30 + 31 + 31 + 30 + 31 + 30;
+      break;
+    default:
+      hanyadik = 0;
+      break;
+  }
+  return hanyadik;
+}
+
+void hanyadik_het(int ev, int ho, int nap, int *hanyadikhet, int *milyennap) {
+  int napdb = hanyadik_nap(ev, ho, nap);
+  printf(" %d ", napdb);
+  int het = 1;
+  if(napdb == 0)
+    return;
+  int hetnapja = 0, mozgoev = 2018;
+  while(mozgoev < ev) {
+    if(szokoev(mozgoev))
+      hetnapja += 2;
+    else
+      hetnapja ++;
+    hetnapja = hetnapja % 7;
+    mozgoev ++;
+  }
+
+  while(mozgoev > ev) {
+    mozgoev --;
+    if(szokoev(mozgoev))
+      hetnapja -= 2;
+    else
+      hetnapja --;
+    hetnapja = hetnapja % 7;
+  }
+
+  for(int i = 1; i < napdb; i ++) {
+    if(hetnapja == 6) {
+      hetnapja = 0;
+      het ++;
     }
-    return nap;
+    else hetnapja ++;
+  }
+
+  *hanyadikhet = het;
+  *milyennap = hetnapja;
 }
 
 void esemeny_beolvas(Esemeny *mibe) {
-    //esemeny_init(mibe);
     Esemeny e;
     printf("Datum, idopont (EEEE.HH.NN. oo:pp): ");
     scanf("%d.%d.%d. %d:%d", &e.ev, &e.ho, &e.nap, &e.ora, &e.perc);
@@ -192,6 +231,8 @@ void esemeny_beolvas(Esemeny *mibe) {
       free(mibe -> megj);
     mibe -> megj = e.megj;
 
+    hanyadik_het(mibe -> ev, mibe -> ho, mibe -> nap, &mibe -> het, &mibe -> hetnapja);
+
 }
 
 void fajlbol_beolvas(Esemeny *mibe, FILE *fp) {
@@ -217,6 +258,8 @@ void fajlbol_beolvas(Esemeny *mibe, FILE *fp) {
     if (mibe -> megj != NULL)
       free(mibe -> megj);
     mibe -> megj = e.megj;
+
+    hanyadik_het(mibe -> ev, mibe -> ho, mibe -> nap, &mibe -> het, &mibe -> hetnapja);
 
 }
 
@@ -338,8 +381,17 @@ int hokiir(Esemeny *lista, int ev, int ho) {
     return db;
 }
 
-void het(Esemeny *lista, int ev, int ho, int nap) {
-
+int hetkiir(Esemeny *lista, int ev, int het) {
+    int db = 0;
+    Esemeny *mozgo = lista;
+    while(mozgo != NULL) {
+      if(mozgo -> het == het && mozgo -> ev == ev) {
+        esemeny_kiir(mozgo);
+        db ++;
+      }
+      mozgo = mozgo -> kov;
+    }
+    return db;
 }
 
 void teljeskiir(Esemeny *lista) {
@@ -389,7 +441,7 @@ int main()
     esemeny_init(naplo);
     naplo = NULL;
     FILE *fp;
-    int ev, ho, nap;
+    int ev, ho, het, nap;
     int c;
 
     char *mitkeres, *fajlnev;
@@ -489,7 +541,7 @@ int main()
             case 3:
                 system("cls");
                 printf("Valasszon intervallumot!\n");
-                printf("  1 - Nap\n  2 - Het\n  3 - Honap\n  4 - Vissza\n");
+                printf("  1 - Nap\n  2 - Het\n  3 - Honap\n  0 - Vissza\n");
                 printf("\n  Valasz: ");
                 scanf("%d", &n);
 
@@ -497,22 +549,33 @@ int main()
                   case 1:
                     printf("Adja meg a datumot: ");
                     scanf("%d.%d.%d.", &ev, &ho, &nap);
+                    getchar();
                     if(napkiir(naplo, ev, ho, nap) == 0)
                       printf("Nincs talalat!\n");
-                    scanf("%d", &ev);
+                    printf("Nyomjon ENTER-t a visszalepeshez\n");
+                    getchar();
                     break;
 
                   case 2:
-
+                    printf("Adja meg a datumot(ev.het.): ");
+                    scanf("%d.%d.",&ev, &het);
+                    getchar();
+                    if(hetkiir(naplo, ev, het) == 0)
+                      printf("Nincs talalat!\n");
+                    printf("Nyomjon ENTER-t a visszalepeshez\n");
+                    getchar();
+                    break;
                   case 3:
                     printf("Adja meg a datumot: ");
                     scanf("%d.%d.", &ev, &ho);
+                    getchar();
                     if(hokiir(naplo, ev, ho) == 0)
                       printf("Nincs talalat!\n");
-                    scanf("%d", &nap);
+                    printf("Nyomjon ENTER-t a visszalepeshez\n");
+                    getchar();
                     break;
 
-                  case 4:
+                  case 0:
                     break;
 
                   default:

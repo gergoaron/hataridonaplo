@@ -4,7 +4,7 @@
 #include <string.h>
 
 typedef struct Esemeny{
-    int ev, ho, nap, het;
+    int ev, ho, nap, het, hetnapja;
     int ora, perc;
     char* helyszin;
     char* nev ;
@@ -112,9 +112,15 @@ char *szovegfajlbeolvas(FILE *fp) {
     return tomb;
 }
 
+bool szokoev(int ev) {
+  if( (ev % 4 == 0 && ev % 100 != 0) || ev % 400 == 0)
+    return true;
+  return false;
+}
+
 int hanyadik_nap(int ev, int ho, int nap) {
   int hanyadik = nap, februar = 28;
-  if( (ev % 4 == 0 && ev % 100 != 0) || ev % 400 == 0)
+  if(szokoev(ev))
     februar = 29;
     switch (ho) {
       case 1:

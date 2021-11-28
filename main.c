@@ -436,7 +436,7 @@ int main()
 {
     Esemeny* naplo = (Esemeny*) malloc(sizeof(Esemeny));
     esemeny_init(naplo);
-    Esemeny* mozgo;
+    Esemeny* mozgo, *seged;
     free(naplo);
     esemeny_init(naplo);
     naplo = NULL;
@@ -447,14 +447,13 @@ int main()
     char *mitkeres, *fajlnev;
 
     int *talalat;
-    int i, n, db = 0, talalatvalaszt, naplomeret = 0;
+    int i, n, db = 0, talalatvalaszt;
     int v = fomenu();
     while(v != 0) {
         switch(v) {
             case 1:
                 system("cls");
                 naplo = hozzafuz(naplo);
-                naplomeret ++;
                 break;
 
             case 2:
@@ -512,21 +511,27 @@ int main()
                         break;
 
                     case 2:
-                        if(naplomeret == 1) {
+                        if(naplo -> kov == NULL) {
                           felszabadit(naplo);
-                          naplomeret = 0;
+                          naplo = NULL;
                           break;
                         }
                         mozgo = naplo;
-                        for(int i = 0; i < talalatvalaszt - 1; i ++)
+                        seged = NULL;
+                        for(int i = 0; i < talalatvalaszt; i ++) {
+                          seged = mozgo;
                           mozgo = mozgo -> kov;
-                        if(naplomeret - 1 == talalatvalaszt) {
-                          felszabadit(mozgo -> kov);
-                          mozgo -> kov = NULL;
-                          break;
                         }
-                        felszabadit(mozgo -> kov);
-                        mozgo -> kov = mozgo -> kov -> kov;
+
+                        if(seged == NULL) {
+                          seged = mozgo -> kov;
+                          esemeny_destroy(mozgo);
+                          naplo = seged;
+                        }
+                        else {
+                          seged -> kov = mozgo -> kov;
+                          esemeny_destroy(mozgo);
+                        }
 
                         break;
 
@@ -620,10 +625,6 @@ int main()
         v = fomenu();
     }
     mozgo = naplo;
-    while(mozgo != NULL) {
-        esemeny_kiir(mozgo);
-        mozgo = mozgo -> kov;
-    }
     felszabadit(naplo);
     return 0;
 }

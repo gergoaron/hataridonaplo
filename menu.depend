@@ -16,7 +16,7 @@
 	<process.h>
 	<unistd.h>
 
-1638124975 source:c:\users\gergo\egyetem\prog 1\nhf\hataridonaplo_rep\main.c
+1638127722 source:c:\users\gergo\egyetem\prog 1\nhf\hataridonaplo_rep\main.c
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
@@ -44,7 +44,7 @@
 1638125149 source:c:\users\gergo\egyetem\prog 1\nhf\hataridonaplo_rep\esemenykezeles.c
 	"esemenykezeles.h"
 
-1638116409 source:c:\users\gergo\egyetem\prog 1\nhf\hataridonaplo_rep\fajlkezeles.c
+1638126870 source:c:\users\gergo\egyetem\prog 1\nhf\hataridonaplo_rep\fajlkezeles.c
 	"fajlkezeles.h"
 
 1638116219 source:c:\users\gergo\egyetem\prog 1\nhf\hataridonaplo_rep\datumkezeles.c

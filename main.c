@@ -119,8 +119,9 @@ int main()
 
             case 3:
                 system("cls");
+                printf("Intevallum szerinti kereses\n");
                 printf("Valasszon intervallumot!\n");
-                printf("  1 - Nap\n  2 - Het\n  3 - Honap\n  0 - Vissza\n");
+                printf("  1 - Nap\n  2 - Het\n  3 - Honap\n  egyeb - Vissza\n");
                 printf("\n  Valasz: ");
                 scanf("%d", &n);
                 system("cls");
@@ -164,6 +165,8 @@ int main()
                 break;
 
             case 4:
+                system("cls");
+                printf("Naplo fajlba mentese\n");
                 printf("Fajl neve: ");
                 fajlnev = beolvas();
                 fp = fopen(fajlnev, "w");

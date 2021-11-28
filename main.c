@@ -4,7 +4,7 @@
 #include <string.h>
 
 typedef struct Esemeny{
-    int ev, ho, nap;
+    int ev, ho, nap, het;
     int ora, perc;
     char* helyszin;
     char* nev ;
@@ -110,6 +110,50 @@ char *szovegfajlbeolvas(FILE *fp) {
         return NULL;
     }
     return tomb;
+}
+
+int hanyadik_nap(int ev, int ho, int nap) {
+  int hanyadik = nap, februar = 28;
+  if( (ev % 4 == 0 && ev % 100 != 0) || ev % 400 == 0)
+    februar = 29;
+    switch (ho) {
+      case 1:
+        break;
+      case 2:
+        nap += 31;
+        break;
+      case 3:
+        nap += 31 + februar;
+        break;
+      case 4:
+        nap += 31 + februar + 31;
+        break;
+      case 5:
+        nap += 31 + februar + 31 + 30;
+        break;
+      case 6:
+        nap += 31 + februar + 31 + 30 + 31;
+        break;
+      case 7:
+        nap += 31 + februar + 31 + 30 + 31 + 30;
+        break;
+      case 8:
+        nap += 31 + februar + 31 + 30 + 31 + 30 + 31;
+        break;
+      case 9:
+        nap += 31 + februar + 31 + 30 + 31 + 30 + 31 + 31;
+        break;
+      case 10:
+        nap += 31 + februar + 31 + 30 + 31 + 30 + 31 + 31 + 30;
+        break;
+      case 11:
+        nap += 31 + februar + 31 + 30 + 31 + 30 + 31 + 31 + 30 + 31;
+        break;
+      case 12:
+        nap += 31 + februar + 31 + 30 + 31 + 30 + 31 + 31 + 30 + 31 + 30;
+        break;
+    }
+    return nap;
 }
 
 void esemeny_beolvas(Esemeny *mibe) {
@@ -354,7 +398,7 @@ int main()
                 naplo = hozzafuz(naplo);
                 naplomeret ++;
                 break;
-                
+
             case 2:
                 system("cls");
                 printf("Adja meg a keresett esemeny nevet: ");
@@ -442,7 +486,6 @@ int main()
                 printf("  1 - Nap\n  2 - Het\n  3 - Honap\n  4 - Vissza\n");
                 printf("\n  Valasz: ");
                 scanf("%d", &n);
-                //while ((c = getchar()) != '\n' && c != EOF) { }
 
                 switch(n) {
                   case 1:

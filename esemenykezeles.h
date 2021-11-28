@@ -18,6 +18,10 @@ void esemeny_destroy(Esemeny *e);
 
 void esemeny_kiir(Esemeny *e);
 
+int* keres(Esemeny *eleje, char *mit);
+
+int talalat_kiir(Esemeny *eleje, int *tomb);
+
 void teljeskiir(Esemeny *lista);
 
 void felszabadit(Esemeny *lista);

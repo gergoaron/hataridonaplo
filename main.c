@@ -5,80 +5,8 @@
 #include "esemenykezeles.h"
 #include "datumkezeles.h"
 #include "fajlkezeles.h"
+#include "menukezeles.h"
 
-int fomenu() {
-    int valasz = -1;
-    printf("1) Uj esemeny letrehozasa\n");
-    printf("2) Esemeny nev szerinti keresese\n");
-    printf("3) Intervallum szerinti listazas\n");
-    printf("4) Adatbazis fajlba mentese\n");
-    printf("5) Adatbazis visszatoltese fajlbol\n");
-    printf("6) Teljes kiiras\n");
-    printf("0) Kilepes\n");
-    printf("Adja meg a valaszat: ");
-    int bemenet = scanf("%d", &valasz);
-    int c;
-    while ((c = getchar()) != '\n' && c != EOF) { }
-    while( (valasz < 0 || valasz > 6 || bemenet == 0) ) {
-        printf("Helytelen ertek!\n");
-        printf("Adja meg a valaszat: ");
-        bemenet = scanf("%d", &valasz);
-        while ((c = getchar()) != '\n' && c != EOF) { }
-    }
-
-    return valasz;
-}
-
-
-
-int* keres(Esemeny *eleje, char *mit) {
-    int meret = 0;
-    int *talalatok = (int*) malloc(sizeof(int));
-    Esemeny *mozgo = eleje;
-
-    for(int i = 0; mozgo != NULL; i ++) {
-        if(strcmp(mozgo -> nev, mit) == 0) {
-            talalatok[meret ++] = i;
-            talalatok = (int*) realloc(talalatok, (meret + 1) * sizeof(int));
-        }
-        mozgo = mozgo -> kov;
-    }
-
-    if(meret == 0) {
-        free(talalatok);
-        return NULL;
-    }
-
-    talalatok[meret] = -1;
-    return talalatok;
-}
-
-int talalat_kiir(Esemeny *eleje, int *tomb) {
-    if (tomb == NULL) {
-        printf("Nincs talalat!\n");
-        return 0;
-    }
-    Esemeny *mozgo = eleje;
-    if(tomb[1] == -1) {
-        for(int i = 0; i < tomb[0]; i ++)
-            mozgo = mozgo -> kov;
-        printf("Talalat:\n");
-        esemeny_kiir(mozgo);
-        return 1;
-    }
-
-
-    int j = 0;
-    for(int i = 0; mozgo != NULL && tomb[j] != -1; i ++) {
-        if(i == tomb[j]) {
-            j ++;
-            printf("%d) ", j);
-            esemeny_kiir(mozgo);
-        }
-        mozgo = mozgo -> kov;
-    }
-    return j;
-}
 
 int main()
 {
@@ -188,7 +116,6 @@ int main()
                 }
 
                 free(talalat);
-                free(mitkeres);
                 break;
 
             case 3:
@@ -197,6 +124,7 @@ int main()
                 printf("  1 - Nap\n  2 - Het\n  3 - Honap\n  0 - Vissza\n");
                 printf("\n  Valasz: ");
                 scanf("%d", &n);
+                system("cls");
 
                 switch(n) {
                   case 1:
@@ -205,7 +133,7 @@ int main()
                     getchar();
                     if(napkiir(naplo, ev, ho, nap) == 0)
                       printf("Nincs talalat!\n");
-                    printf("Nyomjon ENTER-t a visszalepeshez\n");
+                    printf("\nNyomjon ENTER-t a visszalepeshez\n");
                     getchar();
                     break;
 
@@ -215,7 +143,7 @@ int main()
                     getchar();
                     if(hetkiir(naplo, ev, het) == 0)
                       printf("Nincs talalat!\n");
-                    printf("Nyomjon ENTER-t a visszalepeshez\n");
+                    printf("\nNyomjon ENTER-t a visszalepeshez\n");
                     getchar();
                     break;
                   case 3:
@@ -224,7 +152,7 @@ int main()
                     getchar();
                     if(hokiir(naplo, ev, ho) == 0)
                       printf("Nincs talalat!\n");
-                    printf("Nyomjon ENTER-t a visszalepeshez\n");
+                    printf("\nNyomjon ENTER-t a visszalepeshez\n");
                     getchar();
                     break;
 
@@ -261,7 +189,6 @@ int main()
                 }
 
                 fclose(fp);
-                //free(fajlnev);
                 break;
 
             case 5:

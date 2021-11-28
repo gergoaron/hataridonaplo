@@ -40,6 +40,54 @@ void esemeny_kiir(Esemeny *e) {
     printf("\n");
 }
 
+int* keres(Esemeny *eleje, char *mit) {
+    int meret = 0;
+    int *talalatok = (int*) malloc(sizeof(int));
+    Esemeny *mozgo = eleje;
+
+    for(int i = 0; mozgo != NULL; i ++) {
+        if(strcmp(mozgo -> nev, mit) == 0) {
+            talalatok[meret ++] = i;
+            talalatok = (int*) realloc(talalatok, (meret + 1) * sizeof(int));
+        }
+        mozgo = mozgo -> kov;
+    }
+
+    if(meret == 0) {
+        free(talalatok);
+        return NULL;
+    }
+
+    talalatok[meret] = -1;
+    return talalatok;
+}
+
+int talalat_kiir(Esemeny *eleje, int *tomb) {
+    if (tomb == NULL) {
+        printf("Nincs talalat!\n");
+        return 0;
+    }
+    Esemeny *mozgo = eleje;
+    if(tomb[1] == -1) {
+        for(int i = 0; i < tomb[0]; i ++)
+            mozgo = mozgo -> kov;
+        printf("Talalat:\n");
+        esemeny_kiir(mozgo);
+        return 1;
+    }
+
+    int j = 0;
+    for(int i = 0; mozgo != NULL && tomb[j] != -1; i ++) {
+        if(i == tomb[j]) {
+            j ++;
+            printf("%d) ", j);
+            esemeny_kiir(mozgo);
+        }
+        mozgo = mozgo -> kov;
+    }
+    return j;
+}
+
 void teljeskiir(Esemeny *lista) {
     if(lista == NULL) {
       printf("Ures lista!\n");

@@ -1,12 +1,13 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "debugmalloc.h"
 #include <string.h>
+
 #include "esemenykezeles.h"
 #include "datumkezeles.h"
 #include "fajlkezeles.h"
 #include "menukezeles.h"
 
+#include "debugmalloc.h"
 
 int main()
 {
@@ -22,7 +23,7 @@ int main()
     char *mitkeres, *fajlnev;
 
     int *talalat;
-    int i, c, n, db = 0, talalatvalaszt;
+    int i, n, db = 0, talalatvalaszt;
     int v = fomenu();
 
     while(v != 0) {
@@ -206,7 +207,6 @@ int main()
                 }
                 naplo = fajlbol_keszit(naplo, fp);
                 fclose(fp);
-                //free(fajlnev);
                 break;
 
               case 6:

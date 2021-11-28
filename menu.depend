@@ -16,13 +16,14 @@
 	<process.h>
 	<unistd.h>
 
-1638116409 source:c:\users\gergo\egyetem\prog 1\nhf\hataridonaplo_rep\main.c
+1638118346 source:c:\users\gergo\egyetem\prog 1\nhf\hataridonaplo_rep\main.c
 	<stdio.h>
 	<stdlib.h>
 	"debugmalloc.h"
 	<string.h>
 	"esemenykezeles.h"
 	"datumkezeles.h"
+	"fajlkezeles.h"
 
 1637586297 c:\users\gergo\egyetem\prog 1\nhf\hataridonaplo_rep\debugmalloc.h
 	<stdbool.h>
@@ -35,11 +36,11 @@
 	<process.h>
 	<unistd.h>
 
-1638116300 c:\users\gergo\egyetem\prog 1\nhf\hataridonaplo_rep\esemenykezeles.h
+1638116808 c:\users\gergo\egyetem\prog 1\nhf\hataridonaplo_rep\esemenykezeles.h
 	<stdbool.h>
 	<stdio.h>
 
-1638116301 source:c:\users\gergo\egyetem\prog 1\nhf\hataridonaplo_rep\esemenykezeles.c
+1638116835 source:c:\users\gergo\egyetem\prog 1\nhf\hataridonaplo_rep\esemenykezeles.c
 	"esemenykezeles.h"
 
 1638116409 source:c:\users\gergo\egyetem\prog 1\nhf\hataridonaplo_rep\fajlkezeles.c

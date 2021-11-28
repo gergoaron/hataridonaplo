@@ -84,9 +84,10 @@ int main()
 {
     Esemeny* naplo = (Esemeny*) malloc(sizeof(Esemeny));
     esemeny_init(naplo);
-    Esemeny* mozgo, *seged;
     free(naplo);
     naplo = NULL;
+
+    Esemeny* mozgo, *seged;
     FILE *fp;
     int ev, ho, het, nap;
 
@@ -95,6 +96,7 @@ int main()
     int *talalat;
     int i, c, n, db = 0, talalatvalaszt;
     int v = fomenu();
+
     while(v != 0) {
         switch(v) {
             case 1:
@@ -238,6 +240,11 @@ int main()
                 printf("Fajl neve: ");
                 fajlnev = beolvas();
                 fp = fopen(fajlnev, "w");
+                if(fp == NULL) {
+                    perror("Fajl megnyitasa sikertelen!");
+                    getchar();
+                    break;
+                }
                 mozgo = naplo;
                 db = 0;
                 while(mozgo != NULL) {
@@ -254,7 +261,7 @@ int main()
                 }
 
                 fclose(fp);
-                free(fajlnev);
+                //free(fajlnev);
                 break;
 
             case 5:
@@ -265,9 +272,14 @@ int main()
                 printf("Fajl neve: ");
                 fajlnev = beolvas();
                 fp = fopen(fajlnev, "r");
+                if(fp == NULL) {
+                    perror("Fajl megnyitasa sikertelen!");
+                    getchar();
+                    break;
+                }
                 naplo = fajlbol_keszit(naplo, fp);
                 fclose(fp);
-                free(fajlnev);
+                //free(fajlnev);
                 break;
 
               case 6:

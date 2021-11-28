@@ -14,6 +14,8 @@ typedef struct Esemeny{
 
 void esemeny_init(Esemeny *p);
 
+void esemeny_destroy(Esemeny *e);
+
 void esemeny_kiir(Esemeny *e);
 
 void teljeskiir(Esemeny *lista);

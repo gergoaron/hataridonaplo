@@ -4,6 +4,7 @@
 #include <string.h>
 #include "esemenykezeles.h"
 #include "datumkezeles.h"
+#include "fajlkezeles.h"
 
 int fomenu() {
     int valasz = -1;

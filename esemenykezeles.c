@@ -1,4 +1,5 @@
 #include "esemenykezeles.h"
+
 void esemeny_init(Esemeny *p) {
     p -> ev = 0;
     p -> ho = 0;
@@ -17,7 +18,6 @@ void esemeny_destroy(Esemeny *e) {
     if(e -> megj != NULL)
         free(e -> megj);
     free(e);
-    e = NULL;
 }
 
 void felszabadit(Esemeny *lista) {
@@ -40,7 +40,7 @@ void esemeny_kiir(Esemeny *e) {
     printf("\n");
 }
 
-int* keres(Esemeny *eleje, char *mit) {
+int *keres(Esemeny *eleje, char *mit) {
     int meret = 0;
     int *talalatok = (int*) malloc(sizeof(int));
     Esemeny *mozgo = eleje;

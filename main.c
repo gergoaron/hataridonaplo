@@ -115,8 +115,6 @@ int main()
                     default:
                         break;
                 }
-
-                free(talalat);
                 break;
 
             case 3:

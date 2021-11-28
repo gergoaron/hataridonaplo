@@ -15,7 +15,7 @@ char *szovegfajlbeolvas(FILE *fp) {
         tomb[i] = '\0';
     }
     else printf("Sikertelen foglalas!\n");
-    if(tomb[0] == '\0') {
+    if(tomb[0] == '\0' || (tomb[0] == '0' && tomb[1] == '\0') ) {
         free(tomb);
         return NULL;
     }
